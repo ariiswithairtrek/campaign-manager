@@ -396,10 +396,8 @@ function openContactModal(c) {
       <div class="fg"><label class="fl">Last Name</label><input id="m-ln" value="${esc(c['Last Name'] || '')}" placeholder="Last name"></div>
     </div>
     <div class="fg"><label class="fl">Email *</label><input id="m-email" type="email" value="${esc(c.Email || '')}" placeholder="email@company.com"${isEdit ? ' readonly style="background:#f8fafc"' : ''}></div>
-    <div class="g2">
-      <div class="fg"><label class="fl">Organization</label><input id="m-org" value="${esc(c.Organization || '')}" placeholder="Company name"></div>
-      <div class="fg"><label class="fl">Title</label><input id="m-title" value="${esc(c.Title || '')}" placeholder="e.g. CEO"></div>
-    </div>
+    <div class="fg"><label class="fl">Organization</label><input id="m-org" value="${esc(c.Organization || '')}" placeholder="Company name"></div>
+    <div class="fg"><label class="fl">Title</label><input id="m-title" value="${esc(c.Title || '')}" placeholder="e.g. CEO"></div>
     <div class="g2">
       <div class="fg">
         <label class="fl">Group</label>
@@ -517,6 +515,7 @@ async function loadCampaigns() {
         <button class="btn btn-ghost btn-sm" onclick="goToTemplates('${c.ID}')">Templates</button>
         <button class="btn btn-ghost btn-sm" onclick="goToLog('${c.ID}')">Log</button>
         <button class="btn btn-ghost btn-sm" style="color:${active?'var(--warning)':'var(--success)'}" onclick="toggleActive('${c.ID}',${active})">${active ? 'Deactivate' : 'Activate'}</button>
+        ${!active ? `<button class="btn btn-danger btn-sm" onclick="deleteCampaign('${c.ID}','${esc(c.Name)}')">Delete</button>` : ''}
       </div>
     </div>`;
   }).join('');
@@ -552,23 +551,21 @@ function openCampaignModal(c) {
         </select>
       </div>
     </div>
-    <div class="g2">
-      <div class="fg">
-        <label class="fl">Target Status</label>
-        <input id="cp-tstatus" value="${esc(c['Target Status'] || 'New')}" placeholder="New">
-        <div class="hint">Comma-separated. e.g. New</div>
-      </div>
-      <div class="fg">
-        <label class="fl">Exclude Statuses</label>
-        <input id="cp-exclude" value="${esc(c['Exclude Status'] || 'Disqualified,Unsubscribed')}">
-        <div class="hint">Always skipped.</div>
-      </div>
+    <div class="fg">
+      <label class="fl">Target Status</label>
+      <input id="cp-tstatus" value="${esc(c['Target Status'] || 'New')}" placeholder="New">
+      <div class="hint">Comma-separated, e.g. New</div>
     </div>
-    <div id="cp-delays">
-      <div class="g3">
-        <div class="fg"><label class="fl">Start Date</label><input id="cp-start" type="date" value="${fmtDateInput(c['Start Date']) || today}"></div>
-        <div class="fg" id="cp-d2-wrap"><label class="fl">Follow-up 1 delay (days)</label><input id="cp-d2" type="number" min="1" value="${c['Day2 Delay'] || 7}"></div>
-        <div class="fg" id="cp-d3-wrap"><label class="fl">Follow-up 2 delay (days)</label><input id="cp-d3" type="number" min="1" value="${c['Day3 Delay'] || 7}"></div>
+    <div class="fg">
+      <label class="fl">Exclude Statuses</label>
+      <input id="cp-exclude" value="${esc(c['Exclude Status'] || 'Disqualified,Unsubscribed')}">
+      <div class="hint">These contacts are always skipped.</div>
+    </div>
+    <div class="g2" style="align-items:end">
+      <div class="fg" style="margin-bottom:0"><label class="fl">Start Date</label><input id="cp-start" type="date" value="${fmtDateInput(c['Start Date']) || today}"></div>
+      <div style="display:flex;gap:10px">
+        <div class="fg" id="cp-d2-wrap" style="margin-bottom:0;flex:1"><label class="fl" style="white-space:nowrap">Follow-up 1 (days)</label><input id="cp-d2" type="number" min="1" value="${c['Day2 Delay'] || 7}"></div>
+        <div class="fg" id="cp-d3-wrap" style="margin-bottom:0;flex:1"><label class="fl" style="white-space:nowrap">Follow-up 2 (days)</label><input id="cp-d3" type="number" min="1" value="${c['Day3 Delay'] || 7}"></div>
       </div>
     </div>
     <div class="modal-footer">
@@ -610,6 +607,13 @@ async function saveCampaign(existingId) {
 
 async function toggleActive(id, currentActive) {
   const r = await apiPost('saveCampaign', { campaign: { ID: id, Active: !currentActive } });
+  if (r.error) { alert(r.error); return; }
+  await loadCampaigns();
+}
+
+async function deleteCampaign(id, name) {
+  if (!confirm(`Delete campaign "${name}"?\n\nThis removes the campaign record but does NOT delete its templates or send log entries.`)) return;
+  const r = await apiPost('deleteCampaign', { campaignId: id });
   if (r.error) { alert(r.error); return; }
   await loadCampaigns();
 }
@@ -699,7 +703,7 @@ async function loadTemplateEditor(campaignId) {
           {{first_name}} · {{last_name}} · {{name}} · {{organization}} · {{title}} · {{email}}
         </span>
       </div>
-      <div class="fg"><label class="fl">Subject</label><input id="ts-${seq}" value="${esc(t.Subject || '')}" placeholder="Subject line…"></div>
+      <div class="fg"><label class="fl">Subject</label><input id="ts-${seq}" value="${esc(t.Subject || '')}" placeholder="Subject line…" style="padding:14px 16px;font-size:15px;width:100%"></div>
       <div class="fg"><label class="fl">Body</label><textarea id="tb-${seq}" rows="10" placeholder="Hi {{first_name}},&#10;&#10;">${esc(t.Body || '')}</textarea></div>
       <div style="display:flex;gap:8px;align-items:center">
         <button class="btn btn-primary btn-sm" onclick="saveTemplate(${seq},'${campaignId}')">Save</button>
