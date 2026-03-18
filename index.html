@@ -205,11 +205,12 @@ async function api(action, params = {}) {
   return r.json();
 }
 async function apiPost(action, data = {}) {
-  const r = await fetch(CFG.url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ token: CFG.token, action, ...data })
-  });
+  // Uses GET + JSON payload param to avoid CORS preflight failures with Apps Script
+  const u = new URL(CFG.url);
+  u.searchParams.set('token', CFG.token);
+  u.searchParams.set('action', action);
+  u.searchParams.set('payload', JSON.stringify(data));
+  const r = await fetch(u.toString());
   if (!r.ok) throw new Error('HTTP ' + r.status);
   return r.json();
 }
