@@ -77,17 +77,17 @@ tbody tr:last-child td { border-bottom: none; }
 .btn-sm { padding: 4px 9px; font-size: 12px; }
 
 /* ── Forms ── */
-.fg { margin-bottom: 13px; }
-.fl { display: block; font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 5px; }
+.fg { margin-bottom: 16px; }
+.fl { display: block; font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
 input[type=text], input[type=email], input[type=date], input[type=number], input[type=password], select, textarea {
-  width: 100%; padding: 7px 10px; border: 1px solid var(--border); border-radius: 6px;
-  font-size: 13px; color: var(--text); background: #fff; outline: none; font-family: inherit;
+  width: 100%; padding: 10px 13px; border: 1px solid var(--border); border-radius: 6px;
+  font-size: 14px; color: var(--text); background: #fff; outline: none; font-family: inherit; line-height: 1.4;
 }
 input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
-textarea { resize: vertical; min-height: 110px; line-height: 1.5; }
-.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-.hint { font-size: 11px; color: var(--muted); margin-top: 3px; }
+textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
 
 /* ── Filters ── */
 .filters { display: flex; gap: 8px; margin-bottom: 14px; align-items: center; flex-wrap: wrap; }
@@ -119,11 +119,11 @@ textarea { resize: vertical; min-height: 110px; line-height: 1.5; }
 /* ── Modal ── */
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
 .modal-overlay.open { display: flex; }
-.modal { background: var(--surface); border-radius: var(--radius); padding: 22px; width: 520px; max-width: 100%; max-height: 90vh; overflow-y: auto; }
-.modal-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-.modal-title { font-size: 14px; font-weight: 600; }
-.modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted); line-height: 1; padding: 0; }
-.modal-footer { display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
+.modal { background: var(--surface); border-radius: var(--radius); padding: 26px; width: 580px; max-width: 100%; max-height: 90vh; overflow-y: auto; }
+.modal-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
+.modal-title { font-size: 15px; font-weight: 600; }
+.modal-close { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--muted); line-height: 1; padding: 0; }
+.modal-footer { display: flex; gap: 8px; justify-content: flex-end; margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--border); }
 
 /* ── Misc ── */
 .loading { text-align: center; padding: 50px; color: var(--muted); font-size: 13px; }
@@ -392,13 +392,13 @@ function openContactModal(c) {
       <button class="modal-close" onclick="closeModal()">×</button>
     </div>
     <div class="g2">
-      <div class="fg"><label class="fl">First Name</label><input id="m-fn" value="${esc(c['First Name'] || '')}"></div>
-      <div class="fg"><label class="fl">Last Name</label><input id="m-ln" value="${esc(c['Last Name'] || '')}"></div>
+      <div class="fg"><label class="fl">First Name</label><input id="m-fn" value="${esc(c['First Name'] || '')}" placeholder="First name"></div>
+      <div class="fg"><label class="fl">Last Name</label><input id="m-ln" value="${esc(c['Last Name'] || '')}" placeholder="Last name"></div>
     </div>
-    <div class="fg"><label class="fl">Email *</label><input id="m-email" type="email" value="${esc(c.Email || '')}"${isEdit ? ' readonly style="background:#f8fafc"' : ''}></div>
+    <div class="fg"><label class="fl">Email *</label><input id="m-email" type="email" value="${esc(c.Email || '')}" placeholder="email@company.com"${isEdit ? ' readonly style="background:#f8fafc"' : ''}></div>
     <div class="g2">
-      <div class="fg"><label class="fl">Organization</label><input id="m-org" value="${esc(c.Organization || '')}"></div>
-      <div class="fg"><label class="fl">Title</label><input id="m-title" value="${esc(c.Title || '')}"></div>
+      <div class="fg"><label class="fl">Organization</label><input id="m-org" value="${esc(c.Organization || '')}" placeholder="Company name"></div>
+      <div class="fg"><label class="fl">Title</label><input id="m-title" value="${esc(c.Title || '')}" placeholder="e.g. CEO"></div>
     </div>
     <div class="g2">
       <div class="fg">
@@ -415,11 +415,11 @@ function openContactModal(c) {
         </select>
       </div>
     </div>
-    <div class="fg"><label class="fl">Notes</label><textarea id="m-notes" rows="2">${esc(c.Notes || '')}</textarea></div>
+    <div class="fg"><label class="fl">Notes</label><textarea id="m-notes" rows="3" placeholder="Any notes about this contact…">${esc(c.Notes || '')}</textarea></div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="saveContact(${isEdit})">Save</button>
-    </div>`);
+      <button class="btn btn-primary" onclick="saveContact(${isEdit})">Save Contact</button>
+    </div>`;
 }
 
 async function saveContact(isEdit) {
@@ -469,11 +469,30 @@ async function loadCampaigns() {
   }
 
   const cards = _campaigns.map(c => {
-    const active = c.Active === true || c.Active === 'TRUE';
+    const active  = c.Active === true || c.Active === 'TRUE';
+    const numSeq  = Number(c['Num Sequences']) || 3;
     const s1 = c['Seq1 Sent'], s2 = c['Seq2 Sent'], s3 = c['Seq3 Sent'];
     const canSend1 = !s1;
-    const canSend2 = !!s1 && !s2;
-    const canSend3 = !!s2 && !s3;
+    const canSend2 = numSeq >= 2 && !!s1 && !s2;
+    const canSend3 = numSeq >= 3 && !!s2 && !s3;
+
+    const seqLabel = numSeq === 1 ? 'Single send' : numSeq === 2 ? '1 follow-up' : '2 follow-ups';
+    const delayMeta = numSeq >= 2 ? ` · +${c['Day2 Delay'] || 7}d` : '';
+    const delay2Meta = numSeq >= 3 ? ` · +${c['Day3 Delay'] || 7}d` : '';
+
+    const seq2row = numSeq >= 2 ? `
+        <div class="seq-row">
+          <div class="seq-dot ${s2 ? 'seq-sent' : 'seq-pending'}">${s2 ? '✓' : '2'}</div>
+          <span>${s2 ? 'Sent ' + fmtDate(s2) : 'Follow-up 1'}</span>
+          ${canSend2 ? `<button class="btn btn-sm btn-ghost" style="margin-left:auto" onclick="manualSend('${c.ID}',2,'${esc(c.Name)}')">Send</button>` : ''}
+        </div>` : '';
+    const seq3row = numSeq >= 3 ? `
+        <div class="seq-row">
+          <div class="seq-dot ${s3 ? 'seq-sent' : 'seq-pending'}">${s3 ? '✓' : '3'}</div>
+          <span>${s3 ? 'Sent ' + fmtDate(s3) : 'Follow-up 2'}</span>
+          ${canSend3 ? `<button class="btn btn-sm btn-ghost" style="margin-left:auto" onclick="manualSend('${c.ID}',3,'${esc(c.Name)}')">Send</button>` : ''}
+        </div>` : '';
+
     return `
     <div class="camp-card">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:3px">
@@ -481,26 +500,17 @@ async function loadCampaigns() {
         <span class="badge ${active ? 'b-active' : 'b-inactive'}">${active ? 'Active' : 'Inactive'}</span>
       </div>
       <div class="camp-meta">
-        <strong>${esc(c.Group)}</strong> · Target: <em>${esc(c['Target Status'] || 'New')}</em>
+        <strong>${esc(c.Group)}</strong> · ${esc(seqLabel)} · Target: <em>${esc(c['Target Status'] || 'New')}</em>
         ${c['Exclude Status'] ? ` · Exclude: ${esc(c['Exclude Status'])}` : ''}<br>
-        Start: ${fmtDate(c['Start Date'])} · +${c['Day2 Delay'] || 7}d · +${c['Day3 Delay'] || 7}d
+        Start: ${fmtDate(c['Start Date'])}${delayMeta}${delay2Meta}
       </div>
       <div>
         <div class="seq-row">
           <div class="seq-dot ${s1 ? 'seq-sent' : 'seq-pending'}">${s1 ? '✓' : '1'}</div>
-          <span>${s1 ? 'Sent ' + fmtDate(s1) : 'Not sent'}</span>
+          <span>${s1 ? 'Sent ' + fmtDate(s1) : 'Initial email'}</span>
           ${canSend1 ? `<button class="btn btn-sm btn-ghost" style="margin-left:auto" onclick="manualSend('${c.ID}',1,'${esc(c.Name)}')">Send</button>` : ''}
         </div>
-        <div class="seq-row">
-          <div class="seq-dot ${s2 ? 'seq-sent' : 'seq-pending'}">${s2 ? '✓' : '2'}</div>
-          <span>${s2 ? 'Sent ' + fmtDate(s2) : 'Not sent'}</span>
-          ${canSend2 ? `<button class="btn btn-sm btn-ghost" style="margin-left:auto" onclick="manualSend('${c.ID}',2,'${esc(c.Name)}')">Send</button>` : ''}
-        </div>
-        <div class="seq-row">
-          <div class="seq-dot ${s3 ? 'seq-sent' : 'seq-pending'}">${s3 ? '✓' : '3'}</div>
-          <span>${s3 ? 'Sent ' + fmtDate(s3) : 'Not sent'}</span>
-          ${canSend3 ? `<button class="btn btn-sm btn-ghost" style="margin-left:auto" onclick="manualSend('${c.ID}',3,'${esc(c.Name)}')">Send</button>` : ''}
-        </div>
+        ${seq2row}${seq3row}
       </div>
       <div class="camp-actions">
         <button class="btn btn-ghost btn-sm" onclick="openCampaignModal(_campaigns.find(x=>x.ID==='${c.ID}'))">Edit</button>
@@ -525,7 +535,7 @@ function openCampaignModal(c) {
       <span class="modal-title">${isEdit ? 'Edit Campaign' : 'New Campaign'}</span>
       <button class="modal-close" onclick="closeModal()">×</button>
     </div>
-    <div class="fg"><label class="fl">Campaign Name *</label><input id="cp-name" value="${esc(c.Name || '')}"></div>
+    <div class="fg"><label class="fl">Campaign Name *</label><input id="cp-name" value="${esc(c.Name || '')}" placeholder="e.g. Q1 Investor Outreach"></div>
     <div class="g2">
       <div class="fg">
         <label class="fl">Target Group *</label>
@@ -534,39 +544,62 @@ function openCampaignModal(c) {
         </select>
       </div>
       <div class="fg">
-        <label class="fl">Target Status</label>
-        <input id="cp-tstatus" value="${esc(c['Target Status'] || 'New')}">
-        <div class="hint">Comma-separated. e.g. New</div>
+        <label class="fl">Number of Emails</label>
+        <select id="cp-numseq" onchange="onNumSeqChange()">
+          <option value="1"${(c['Num Sequences']||3)==1?' selected':''}>1 — Single send</option>
+          <option value="2"${(c['Num Sequences']||3)==2?' selected':''}>2 — One follow-up</option>
+          <option value="3"${(c['Num Sequences']||3)==3?' selected':''}>3 — Two follow-ups</option>
+        </select>
       </div>
     </div>
-    <div class="fg">
-      <label class="fl">Exclude Statuses</label>
-      <input id="cp-exclude" value="${esc(c['Exclude Status'] || 'Disqualified,Unsubscribed')}">
-      <div class="hint">Comma-separated. These contacts are always skipped.</div>
+    <div class="g2">
+      <div class="fg">
+        <label class="fl">Target Status</label>
+        <input id="cp-tstatus" value="${esc(c['Target Status'] || 'New')}" placeholder="New">
+        <div class="hint">Comma-separated. e.g. New</div>
+      </div>
+      <div class="fg">
+        <label class="fl">Exclude Statuses</label>
+        <input id="cp-exclude" value="${esc(c['Exclude Status'] || 'Disqualified,Unsubscribed')}">
+        <div class="hint">Always skipped.</div>
+      </div>
     </div>
-    <div class="g3">
-      <div class="fg"><label class="fl">Start Date</label><input id="cp-start" type="date" value="${fmtDateInput(c['Start Date']) || today}"></div>
-      <div class="fg"><label class="fl">Seq 2 delay (days)</label><input id="cp-d2" type="number" min="1" value="${c['Day2 Delay'] || 7}"></div>
-      <div class="fg"><label class="fl">Seq 3 delay (days)</label><input id="cp-d3" type="number" min="1" value="${c['Day3 Delay'] || 7}"></div>
+    <div id="cp-delays">
+      <div class="g3">
+        <div class="fg"><label class="fl">Start Date</label><input id="cp-start" type="date" value="${fmtDateInput(c['Start Date']) || today}"></div>
+        <div class="fg" id="cp-d2-wrap"><label class="fl">Follow-up 1 delay (days)</label><input id="cp-d2" type="number" min="1" value="${c['Day2 Delay'] || 7}"></div>
+        <div class="fg" id="cp-d3-wrap"><label class="fl">Follow-up 2 delay (days)</label><input id="cp-d3" type="number" min="1" value="${c['Day3 Delay'] || 7}"></div>
+      </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
       <button class="btn btn-primary" onclick="saveCampaign('${c.ID || ''}')">Save Campaign</button>
     </div>`);
+  onNumSeqChange();
+}
+
+function onNumSeqChange() {
+  const n = Number(document.getElementById('cp-numseq')?.value || 3);
+  const d2 = document.getElementById('cp-d2-wrap');
+  const d3 = document.getElementById('cp-d3-wrap');
+  if (d2) d2.style.display = n >= 2 ? '' : 'none';
+  if (d3) d3.style.display = n >= 3 ? '' : 'none';
 }
 
 async function saveCampaign(existingId) {
   const name = document.getElementById('cp-name').value.trim();
   if (!name) { alert('Campaign name is required.'); return; }
+  const numSeq = Number(document.getElementById('cp-numseq').value) || 3;
   const campaign = {
     ID: existingId || '',
     Name: name,
     Group: document.getElementById('cp-group').value,
+    'Num Sequences':  numSeq,
     'Target Status':  document.getElementById('cp-tstatus').value.trim() || 'New',
     'Exclude Status': document.getElementById('cp-exclude').value.trim(),
     'Start Date':     document.getElementById('cp-start').value,
-    'Day2 Delay':     Number(document.getElementById('cp-d2').value) || 7,
-    'Day3 Delay':     Number(document.getElementById('cp-d3').value) || 7,
+    'Day2 Delay':     numSeq >= 2 ? (Number(document.getElementById('cp-d2').value) || 7) : '',
+    'Day3 Delay':     numSeq >= 3 ? (Number(document.getElementById('cp-d3').value) || 7) : '',
     Active: true
   };
   const r = await apiPost('saveCampaign', { campaign });
@@ -649,23 +682,27 @@ async function loadTemplateEditor(campaignId) {
   _selectedCampaignId = campaignId;
   if (!campaignId) { document.getElementById('tmpl-body').innerHTML = ''; return; }
 
-  const d = await api('templates', { campaignId });
-  const templates = d.templates || [];
+  const [td, cd] = await Promise.all([api('templates', { campaignId }), api('campaigns')]);
+  const templates = td.templates || [];
+  const campaign  = (cd.campaigns || []).find(c => c.ID === campaignId) || {};
+  const numSeq    = Number(campaign['Num Sequences']) || 3;
 
-  const html = [1, 2, 3].map(seq => {
+  const seqLabels = ['Initial Email', 'Follow-up 1', 'Follow-up 2'];
+
+  const html = [1, 2, 3].filter(seq => seq <= numSeq).map(seq => {
     const t = templates.find(x => Number(x.Sequence) === seq) || {};
     return `
     <div class="card" style="margin-bottom:14px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <span style="font-weight:600">Sequence ${seq}</span>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <span style="font-weight:600;font-size:14px">Sequence ${seq} — ${seqLabels[seq-1]}</span>
         <span style="font-size:11px;color:var(--muted)">
           {{first_name}} · {{last_name}} · {{name}} · {{organization}} · {{title}} · {{email}}
         </span>
       </div>
       <div class="fg"><label class="fl">Subject</label><input id="ts-${seq}" value="${esc(t.Subject || '')}" placeholder="Subject line…"></div>
-      <div class="fg"><label class="fl">Body</label><textarea id="tb-${seq}" rows="9" placeholder="Hi {{first_name}},\n\n">${esc(t.Body || '')}</textarea></div>
+      <div class="fg"><label class="fl">Body</label><textarea id="tb-${seq}" rows="10" placeholder="Hi {{first_name}},&#10;&#10;">${esc(t.Body || '')}</textarea></div>
       <div style="display:flex;gap:8px;align-items:center">
-        <button class="btn btn-primary btn-sm" id="save-btn-${seq}" onclick="saveTemplate(${seq},'${campaignId}')">Save Seq ${seq}</button>
+        <button class="btn btn-primary btn-sm" onclick="saveTemplate(${seq},'${campaignId}')">Save</button>
         ${t.Subject ? `<button class="btn btn-ghost btn-sm" onclick="previewTemplate(${seq})">Preview</button>` : ''}
         <span id="save-msg-${seq}" style="font-size:12px;color:var(--success)"></span>
       </div>
