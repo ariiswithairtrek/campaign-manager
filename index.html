@@ -401,7 +401,7 @@ function openContactModal(c) {
   if (!c) c = {};
   const isEdit   = !!c.Email;
   const groups   = uniq([...DEFAULT_GROUPS, ..._contacts.map(x => x.Group).filter(Boolean)]);
-  const statuses = ['New', 'Connected', 'Qualified', 'Disqualified', 'Unsubscribed'];
+  const statuses = ['New', 'Connected', 'Qualified', 'Disqualified', 'Unsubscribed', 'Test'];
 
   showModal(`
     <div class="modal-hdr">
